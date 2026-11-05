@@ -102,7 +102,7 @@ public class Game {
     public void nextLevel(){
         currentLevel++;     //Increments the level, when current enemy has been defeated
         
-        if (currentLevel > 5){      //Just an example of 5 levels.. (idk how many levels we will have)
+        if (currentLevel > 6){      //Just an example of 5 levels.. (idk how many levels we will have)
             gameOver = true;        //Ends game after completing the final level
             victory = true;     //Declares the player as winner
             return;
