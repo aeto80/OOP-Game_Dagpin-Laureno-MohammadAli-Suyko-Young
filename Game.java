@@ -17,8 +17,8 @@ public class Game {
     private boolean victory;        //Determine whether the player has won the game (true = victory || false = loser)
     
     // Constructor
-    public Game(Player player){
-        this.player = player;   //Assigns the received Player object to the player's field
+    public Game(){
+        this.player = new Player("player", 100, 20, "path");   //Assigns the received Player object to the player's field
         this.currentLevel = 1;      //Starting at lvl 1
         this.playerTurn = true;     //Allow player to take turn first
         this.gameOver = false;      //Game not yet finished 
@@ -29,6 +29,7 @@ public class Game {
     
     //Start Game
     public void startGame(){
+        player.resetHp();
         currentLevel = 1;      //Reset game to lvl 1
         gameOver = false;       //Makes sure that game is not marked as finish
         victory = false;    //Reset victory status
