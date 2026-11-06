@@ -135,24 +135,32 @@ public class GameGUI extends JFrame {
 
     private ImageIcon loadAndScaleImage(String path, int width, int height) {
 
-        File file = new File(path);
+        Image image = null;
 
-        if (!file.exists()) {
-            file = new File("src/main/java/com/mycompany/main/" + path);
+        java.net.URL imageURL = getClass().getResource(path);
+
+        if (imageURL != null) {
+            image = new ImageIcon(imageURL).getImage();
         }
 
-        if (!file.exists()) {
-            file = new File("../Images/" + path);
+        if (image == null || image.getWidth(null) <= 0) {
+            File file = new File(path);
+
+            if (!file.exists()) {
+                file = new File("src/main/java/com/mycompany/main/Images/" + path.substring(path.lastIndexOf("/") + 1));
+            }
+
+            if (file.exists()) {
+                image = new ImageIcon(file.getAbsolutePath()).getImage();
+            }
         }
 
-        if (file.exists()) {
-            ImageIcon icon = new ImageIcon(file.getAbsolutePath());
-            Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-            return new ImageIcon(image);
+        if (image != null && image.getWidth(null) > 0) {
+            Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
         }
 
-        System.out.println("[Image Warning] Could not locate image: " + path);
+        System.out.println("[Image Warning] Could not locate or load image: " + path);
 
         return null;
     }
