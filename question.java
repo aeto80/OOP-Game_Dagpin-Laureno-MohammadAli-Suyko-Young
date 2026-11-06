@@ -6,7 +6,6 @@ public class question {
     private String codeAfter;
     private int level;
 
-    // Constructor
     public question(String codeBefore, String correctAnswer, String codeAfter, int level) {
         this.codeBefore = codeBefore;
         this.correctAnswer = correctAnswer;
@@ -14,7 +13,6 @@ public class question {
         this.level = level;
     }
 
-    // Getters
     public String getCodeBefore() {
         return codeBefore;
     }
@@ -31,12 +29,10 @@ public class question {
         return level;
     }
 
-    // Check Answer
     public boolean checkAnswer(String answer) {
         return answer.trim().equals(correctAnswer);
     }
 
-    // Get Full Code
     public String getFullCode() {
         return codeBefore + "_____" + codeAfter;
     }

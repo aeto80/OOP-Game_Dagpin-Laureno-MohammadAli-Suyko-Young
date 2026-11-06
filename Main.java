@@ -4,14 +4,17 @@
 
 package com.mycompany.main;
 
-/**
- *
- * @author User
- */
+import javax.swing.SwingUtilities;
+
 public class Main {
 
     public static void main(String[] args) {
         Game game = new Game();
+        
+        SwingUtilities.invokeLater(() -> {
+            GameGUI gui = new GameGUI();
+            gui.setVisible(true);
+        });
         
         game.startGame();
         

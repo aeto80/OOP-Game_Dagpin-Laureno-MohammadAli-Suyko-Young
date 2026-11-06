@@ -1,133 +1,101 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.main;
 
-/**
- *
- * @author Jeremie Young
- */
 public class Game {
-    private Player player;      //Stores the player object, which allows the Game class to access player's health, and damaage
-    private Enemy currentEnemy;     //Stores the enemy object that the player is fighting 
-    private int currentLevel;      //Keeps track of the current level in the game
-    private boolean playerTurn;     //Seeks out whose turn it is (true = player turn || false = enemy turn)
-    private boolean gameOver;       //Determines whether the games has already ended (true = game is over || false = game is running)
-    private boolean victory;        //Determine whether the player has won the game (true = victory || false = loser)
-    
-    // Constructor
-    public Game(){
-        this.player = new Player("player", 100, 20, "path");   //Assigns the received Player object to the player's field
-        this.currentLevel = 1;      //Starting at lvl 1
-        this.playerTurn = true;     //Allow player to take turn first
-        this.gameOver = false;      //Game not yet finished 
-        this.victory = false;       //player is still not the winner
+    private Player player;
+    private Enemy currentEnemy;
+    private int currentLevel;
+    private boolean playerTurn;
+    private boolean gameOver;
+    private boolean victory;
+
+    // Array of unique enemy image paths per level
+    private String[] enemyImages = {
+        "/Images/enemy_lvl1.png",
+        "/Images/enemy_lvl2.png",
+        "/Images/enemy_lvl3.png",
+        "/Images/enemy_lvl4.png",
+        "/Images/enemy_lvl5.png",
+        "/Images/enemy_lvl6.png"
+    };
+
+    public Game() {
+        this.player = new Player("Player", 100, 20, "/Images/player.png");
+        this.currentLevel = 1;
+        this.playerTurn = true;
+        this.gameOver = false;
+        this.victory = false;
         
-        startGame();    //Call the method that initializes the game
+        startGame();
     }
-    
-    //Start Game
-    public void startGame(){
+
+    public void startGame() {
         player.resetHp();
-        currentLevel = 1;      //Reset game to lvl 1
-        gameOver = false;       //Makes sure that game is not marked as finish
-        victory = false;    //Reset victory status
-        playerTurn = true;      //Gives first turn to the player
+        currentLevel = 1;
+        gameOver = false;
+        victory = false;
+        playerTurn = true;
         
-        startLevel();      //Creates the enemy for lvl 1
+        startLevel();
     }
-     
-    //Start Level
-    public void startLevel(){
-        currentEnemy = new Enemy("enemy", 10, 10, "path");     //Cretes an Enemy obbject using current level
-        playerTurn = true;          //Gives first turn to the player
+
+    public void startLevel() {
+        int enemyHp = 30 + (currentLevel * 10);
+        int enemyDamage = 10 + (currentLevel * 2);
+        
+        String imagePath = enemyImages[currentLevel - 1];
+        
+        currentEnemy = new Enemy("Level " + currentLevel + " Bug", enemyHp, enemyDamage, imagePath);
+        playerTurn = true;
+        gameOver = false;
     }
-    
-    //Player Turn
-    public void playerTurn(){
-        if(gameOver || !playerTurn){        //Stops the method if game is over || if it is currently not the player's turn
+
+    public void answerQuestion(boolean correct) {
+        if (gameOver || !playerTurn) {
             return;
         }
-        
-        playerTurn = true;      //Confirming that it is the player's turn
-    }
-    
-    //Answer Question
-    public void answerQuestion(boolean correct){
-        if(gameOver || !playerTurn){        //Prevents answering if the game is over || if it is not the player's turn
-            return;
-        }
-        
-        if (correct){
-            currentEnemy.takeDamage(player.getAttackDamage());    // Correct answer, enemy takes damage
-            
-            if (currentEnemy.getHP() <= 0){     //Checking if enemy is defeated
+
+        if (correct) {
+            currentEnemy.takeDamage(player.getAttackDamage());
+            if (!currentEnemy.isAlive()) {
                 nextLevel();
                 return;
             }
-        } else{
-            player.takeDamage(currentEnemy.getAttackDamage());    // Wrong answer, player takes damage
-            
-            if (player.getHP() <= 0){      // Chcecking if player is defeated
-                gameOver = true;       //Ends the game because player took the L
-                victory = false;       //Sets to false since player lost 
-                return;
-            }
+        } else {
+            playerTurn = false;
+            enemyTurn();
         }
-        
-        playerTurn = false;     //Switch to enemy turn
-        
-        enemyTurn();    //Calls the enemy's turn method
     }
-    
-    // Enemy Turn
-    public void enemyTurn(){
-        if (gameOver || playerTurn){    //Prevents the enemy from attacking if the game is over || if it is still the player's turn
+
+    public void enemyTurn() {
+        if (gameOver) {
             return;
         }
-        
-        player.takeDamage(currentEnemy.getAttackDamage());    //Enemy Attacks
-        
-        if (player.getHP() <= 0){       // Checking if player is defeated
-            gameOver = true;        //Ends the game because player took the L
-            victory = false;        //Sets to false since player lost 
+
+        player.takeDamage(currentEnemy.getAttackDamage());
+
+        if (!player.isAlive()) {
+            gameOver = true;
+            victory = false;
             return;
         }
-        
-        playerTurn = true;      // Return to a player for their turn again
+
+        playerTurn = true;
     }
-    
-    // Next Level
-    public void nextLevel(){
-        currentLevel++;     //Increments the level, when current enemy has been defeated
-        
-        if (currentLevel > 6){      //Just an example of 5 levels.. (idk how many levels we will have)
-            gameOver = true;        //Ends game after completing the final level
-            victory = true;     //Declares the player as winner
+
+    public void nextLevel() {
+        currentLevel++;
+        if (currentLevel > 6) {
+            gameOver = true;
+            victory = true;
             return;
         }
-        
-        startLevel();      //If there are still remaining levels, creates a new enely for the next level
+        startLevel();
     }
-    
-    //Getters (Allow other classes to access teh private variables of the Game class. They provide info w/o directly modifying the variables)
-    public Player getPlayer(){      //Returns the Player object 
-        return player;
-    }
-    public Enemy getCurrentEnemy(){     //Returns the current Enemy object
-        return currentEnemy;
-    }
-    public int getCurrentLevel(){       //Returns the cuurent level number
-        return currentLevel;
-    }
-    public boolean isPlayerTurn(){      //Returns true if it is the player's turn
-        return playerTurn;
-    }
-    public boolean isGameOver(){        //Returns true if the game has ended
-        return gameOver;
-    }
-    public boolean isVictory(){     //Returns true if player has won the game
-        return victory;
-    }
+
+    public Player getPlayer() { return player; }
+    public Enemy getCurrentEnemy() { return currentEnemy; }
+    public int getCurrentLevel() { return currentLevel; }
+    public boolean isPlayerTurn() { return playerTurn; }
+    public boolean isGameOver() { return gameOver; }
+    public boolean isVictory() { return victory; }
 }
