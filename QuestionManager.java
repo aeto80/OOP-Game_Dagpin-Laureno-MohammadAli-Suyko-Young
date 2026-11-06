@@ -19,7 +19,7 @@ public class QuestionManager {
         Questions.add(new question("int x = 20 ", ";", " ", 1));
         Questions.add(new question(" ", "String", "name = \"Louise\";", 1));
         Questions.add(new question(" ", "int", " age = 20;", 1));
-        Questions.add(new question("System.out", ".println", "\"(Hello World)\";", 1));
+        Questions.add(new question("System.out", ".println", "(\"Hello World\");", 1));
         
         //Level 2
         Questions.add(new question("int sum = 10 + 5", ";", " ", 2));
@@ -38,7 +38,7 @@ public class QuestionManager {
         Questions.add(new question("int[] numbers = new int[5", "]", ";", 4));
         Questions.add(new question("numbers[0", "]", " = 10;", 4));
         Questions.add(new question("int[][] matrix = new int[3]", "[", "3];", 4));
-        Questions.add(new question("import java.util.Scanner*", ";", "", 4));
+        Questions.add(new question("import java.util.Scanner", ".*;", "", 4));
         
         //Level 5
         Questions.add(new question("try ", "{", " System.out.println(\"Hello\"); }", 5));
@@ -49,9 +49,9 @@ public class QuestionManager {
         
         //Level 6
         Questions.add(new question("public ", "static", " void main(String[] args) { }", 6));
-        Questions.add(new question(" ", "try", " { int result = 10 / divisor; }", 6));
+        Questions.add(new question(" ", "try", " { int result = 10 / divisor; } finally { }", 6));
         Questions.add(new question("catch (", "ArithmeticException e", ") {", 6));
-        Questions.add(new question("import javax", ".util.Scanner", "*;", 4));
+        Questions.add(new question("import java", ".util.Scanner", "*;", 4));
         Questions.add(new question("public void setName(String name) { this.name = ", "name", "; }", 6));
     }
     
