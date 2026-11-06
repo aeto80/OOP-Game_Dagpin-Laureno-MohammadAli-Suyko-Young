@@ -147,6 +147,11 @@ public class GameGUI extends JFrame {
 
             // 2. Try NetBeans Classpath resource
             java.net.URL imgURL = getClass().getResource(path);
+
+            if (imgURL == null) {
+                imgURL = getClass().getResource("/com/mycompany/main/" + path);
+            }
+
             if (imgURL != null) {
                 Image img = new ImageIcon(imgURL).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
                 return new ImageIcon(img);
