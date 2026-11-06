@@ -226,7 +226,7 @@ public class GameGUI extends JFrame {
         playerHpBar.setString(p.getHP() + " / " + p.getMaxHp());
         playerHpLabel.setText(p.getName().toUpperCase() + " HP");
         
-        ImageIcon pIcon = loadAndScaleImage(p.getImagePath(), 100, 100);
+        ImageIcon pIcon = loadAndScaleImage(p.getImagePath(), 250, 250);
         if (pIcon != null) {
             playerImageLabel.setIcon(pIcon);
             playerImageLabel.setText(""); 
@@ -238,7 +238,7 @@ public class GameGUI extends JFrame {
         enemyHpBar.setString(e.getHP() + " / " + e.getMaxHp());
         enemyHpLabel.setText(e.getName().toUpperCase() + " HP");
         
-        ImageIcon eIcon = loadAndScaleImage(e.getImagePath(), 100, 100);
+        ImageIcon eIcon = loadAndScaleImage(e.getImagePath(), 250, 250);
         if (eIcon != null) {
             enemyImageLabel.setIcon(eIcon);
             enemyImageLabel.setText(""); 
