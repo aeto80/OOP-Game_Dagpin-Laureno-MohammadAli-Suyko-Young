@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class GameGUI extends JFrame {
     private Game game;
@@ -133,46 +134,27 @@ public class GameGUI extends JFrame {
     }
 
     private ImageIcon loadAndScaleImage(String path, int width, int height) {
-        if (path == null || path.isEmpty()) {
-            return null;
+
+        File file = new File(path);
+
+        if (!file.exists()) {
+            file = new File("src/main/java/com/mycompany/main/" + path);
         }
 
-        try {
-            // 1. Try direct system file (e.g., resources/player.png or src/resources/player.png)
-            java.io.File localFile = new java.io.File(path.startsWith("/") ? path.substring(1) : path);
-            if (localFile.exists()) {
-                Image img = new ImageIcon(localFile.getAbsolutePath()).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                return new ImageIcon(img);
-            }
-
-            // 2. Try NetBeans Classpath resource
-            java.net.URL imgURL = getClass().getResource(path);
-
-            if (imgURL == null) {
-                imgURL = getClass().getResource("/com/mycompany/main/" + path);
-            }
-
-            if (imgURL != null) {
-                Image img = new ImageIcon(imgURL).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                return new ImageIcon(img);
-            }
-
-            // 3. Fallback: try prepending /
-            if (!path.startsWith("/")) {
-                imgURL = getClass().getResource("/" + path);
-                if (imgURL != null) {
-                    Image img = new ImageIcon(imgURL).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                    return new ImageIcon(img);
-                }
-            }
-
-            System.out.println("[Image Warning] Could not locate image at path: " + path);
-            return null;
-        } catch (Exception e) {
-            System.err.println("[Image Error] Failed to load image path: " + path);
-            e.printStackTrace();
-            return null;
+        if (!file.exists()) {
+            file = new File("../Images/" + path);
         }
+
+        if (file.exists()) {
+            ImageIcon icon = new ImageIcon(file.getAbsolutePath());
+            Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(image);
+        }
+
+        System.out.println("[Image Warning] Could not locate image: " + path);
+
+        return null;
     }
 
     private void loadNextQuestion() {
