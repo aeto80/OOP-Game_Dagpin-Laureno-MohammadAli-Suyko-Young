@@ -28,7 +28,7 @@ public class GameGUI extends JFrame {
         game = new Game();
         questionManager = new QuestionManager();
 
-        setTitle("Code Quiz RPG");
+        setTitle("CodeWorm: The Andre Chronicles");
         setSize(700, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -55,13 +55,21 @@ public class GameGUI extends JFrame {
         playerPanel.add(playerHpBar, BorderLayout.SOUTH);
 
         // Center Level Info
-        JPanel centerHeader = new JPanel(new GridLayout(2, 1));
+        JPanel centerHeader = new JPanel(new GridLayout(4, 1));
         levelLabel = new JLabel("Level: 1", SwingConstants.CENTER);
         levelLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+
+        JLabel welcomeLabel = new JLabel("Welcome to CodeWorm:", SwingConstants.CENTER);
+        welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+        JLabel welcomeLabel2 = new JLabel("The Andre Chronicles!", SwingConstants.CENTER);
+        welcomeLabel2.setFont(new Font("SansSerif", Font.BOLD, 16));
+
         JLabel titleLabel = new JLabel("Complete the Code!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         centerHeader.add(levelLabel);
         centerHeader.add(titleLabel);
+        centerHeader.add(welcomeLabel);
+        centerHeader.add(welcomeLabel2);
 
         // Enemy Section
         JPanel enemyPanel = new JPanel(new BorderLayout(5, 5));
